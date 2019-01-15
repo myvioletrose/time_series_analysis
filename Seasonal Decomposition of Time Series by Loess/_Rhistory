@@ -1,0 +1,512 @@
+size = 3.5, fontface = 'bold', color = 'white',
+box.padding = unit(0.35, "lines"),
+point.padding = unit(0.5, "lines"),
+segment.color = 'grey50', segment.size = 0.5,
+force = 5) +
+geom_text_repel(aes(label = ifelse(aov > median(aov), aov, '')),
+size = 2, color = 'red',
+force = 5) +
+theme(legend.position = "none",
+axis.text.x = element_text(angle = 80, hjust = 1),
+plot.title = element_text(hjust = 0.5)) +
+geom_hline(aes(yintercept = median(aov)), color = 'red', linetype = 2, size = 2) +
+ggtitle("Rue La La : AOV by Shipping Country")
+windows()
+ggplot(df,
+aes(country, aov)) +
+labs(x = "Shipping Country", y = "AOV") +
+geom_point(stat = "identity", color = 'grey', aes(fill = factor(aov), size = mv)) +
+geom_label_repel(aes(country, aov, fill = factor(aov), label = country),
+size = 3.5, fontface = 'bold', color = 'white',
+box.padding = unit(0.35, "lines"),
+point.padding = unit(0.5, "lines"),
+segment.color = 'grey50', segment.size = 0.5,
+force = 5) +
+geom_text_repel(aes(label = ifelse(aov > median(aov), aov, '')),
+size = 2, color = 'red',
+force = 5) +
+theme(legend.position = "none",
+axis.text.x = element_text(angle = 80, hjust = 1),
+plot.title = element_text(hjust = 0.5)) +
+geom_hline(aes(yintercept = median(aov)), color = 'red', linetype = 2, size = 1.5) +
+ggtitle("Rue La La : AOV by Shipping Country")
+ggplot(df,
+aes(country, aov)) +
+labs(x = "Shipping Country", y = "AOV") +
+geom_point(stat = "identity", color = 'grey', aes(fill = factor(aov), size = mv)) +
+geom_label_repel(aes(country, aov, fill = factor(aov), label = country),
+size = 3.5, fontface = 'bold', color = 'white',
+box.padding = unit(0.35, "lines"),
+point.padding = unit(0.5, "lines"),
+segment.color = 'grey50', segment.size = 0.5,
+force = 5) +
+geom_text_repel(aes(label = ifelse(aov > median(aov), aov, '')),
+size = 2, color = 'red',
+force = 5) +
+theme(legend.position = "none",
+axis.text.x = element_text(angle = 80, hjust = 1),
+plot.title = element_text(hjust = 0.5)) +
+geom_hline(aes(yintercept = median(aov)), color = 'red', linetype = 2, size = 1.25) +
+ggtitle("Rue La La : AOV by Shipping Country")
+ggplot(df,
+aes(country, aov)) +
+labs(x = "Shipping Country", y = "AOV") +
+geom_point(stat = "identity", color = 'grey', aes(fill = factor(aov), size = mv)) +
+geom_label_repel(aes(country, aov, fill = factor(aov), label = country),
+size = 3.5, fontface = 'bold', color = 'white',
+box.padding = unit(0.35, "lines"),
+point.padding = unit(0.5, "lines"),
+segment.color = 'grey50', segment.size = 0.5,
+force = 5) +
+geom_text_repel(aes(label = ifelse(aov > median(aov), aov, '')),
+size = 2, color = 'red',
+force = 5) +
+theme(legend.position = "none",
+axis.text.x = element_text(angle = 80, hjust = 1),
+plot.title = element_text(hjust = 0.5)) +
+# geom_hline(aes(yintercept = median(aov)), color = 'red', linetype = 2, size = 1.25) +
+ggtitle("Rue La La : AOV by Shipping Country")
+ls()
+rm(df)
+set.seed(993)
+x <- 1:300
+y <- sin(x/20) + rnorm(300,sd=.1)  # introduce noise
+y[251:255] <- NA  # introduce missing data
+############# Plot the unsmoothed data (gray) #############
+windows(); plot(x, y, type="l", col=grey(.5))
+grid()  # Draw gridlines
+f20 <- rep(1/20, 20)
+f20
+#>  [1] 0.05 0.05 0.05 0.05 0.05 0.05 0.05 0.05 0.05 0.05 0.05 0.05 0.05 0.05 0.05 0.05 0.05
+#> [18] 0.05 0.05 0.05
+y_lag <- filter(y, f20, sides=1)  # side = 1
+lines(x, y_lag, col="red")
+f20 <- rep(1/20, 20)
+f20
+#>  [1] 0.05 0.05 0.05 0.05 0.05 0.05 0.05 0.05 0.05 0.05 0.05 0.05 0.05 0.05 0.05 0.05 0.05
+#> [18] 0.05 0.05 0.05
+y_lag <- filter(y, f20, sides=1)  # side = 1
+y_lag <- stats::filter(y, f20, sides=1)  # side = 1
+lines(x, y_lag, col="red")
+f21 <- rep(1/21,21)
+f21
+#>  [1] 0.04761905 0.04761905 0.04761905 0.04761905 0.04761905 0.04761905 0.04761905
+#>  [8] 0.04761905 0.04761905 0.04761905 0.04761905 0.04761905 0.04761905 0.04761905
+#> [15] 0.04761905 0.04761905 0.04761905 0.04761905 0.04761905 0.04761905 0.04761905
+y_sym <- stats::filter(y, f21, sides=2)  # side = 2
+lines(x, y_sym, col="blue")
+xy <- data.frame(x, y, y_lag, y_sym)
+floor(7.5)
+ceiling(7.5)
+movingAverage <- function(x, n=1, centered=FALSE) {
+if (centered) {
+before <- floor  ((n-1)/2)
+after  <- ceiling((n-1)/2)
+} else {
+before <- n-1
+after  <- 0
+}
+# Track the sum and count of number of non-NA items
+s     <- rep(0, length(x))
+count <- rep(0, length(x))
+# Add the centered data
+new <- x
+# Add to count list wherever there isn't a
+count <- count + !is.na(new)
+# Now replace NA_s with 0_s and add to total
+new[is.na(new)] <- 0
+s <- s + new
+# Add the data from before
+i <- 1
+while (i <= before) {
+# This is the vector with offset values to add
+new   <- c(rep(NA, i), x[1:(length(x)-i)])
+count <- count + !is.na(new)
+new[is.na(new)] <- 0
+s <- s + new
+i <- i+1
+}
+# Add the data from after
+i <- 1
+while (i <= after) {
+# This is the vector with offset values to add
+new   <- c(x[(i+1):length(x)], rep(NA, i))
+count <- count + !is.na(new)
+new[is.na(new)] <- 0
+s <- s + new
+i <- i+1
+}
+# return sum divided by count
+s/count
+}
+plot(x, y, type="l", col=grey(.5))
+grid()
+y_lag <- filter(y, rep(1/20, 20), sides=1)
+lines(x, y_lag, col="red", lwd=4)         # Lagged average in red
+y_sym <- filter(y, rep(1/21,21), sides=2)
+lines(x, y_sym, col="blue", lwd=4)        # Symmetrical average in blue
+y_lag_na.rm <- movingAverage(y, 20)
+plot(x, y, type="l", col=grey(.5))
+grid()
+y_lag <- stats::filter(y, rep(1/20, 20), sides=1)
+lines(x, y_lag, col="red", lwd=4)         # Lagged average in red
+y_sym <- stats::filter(y, rep(1/21,21), sides=2)
+lines(x, y_sym, col="blue", lwd=4)        # Symmetrical average in blue
+y_lag_na.rm <- movingAverage(y, 20)
+lines(x, y_lag_na.rm, col="green", lwd=2)
+y_sym_na.rm <- movingAverage(y, 21, TRUE)
+lines(x, y_sym_na.rm, col="green", lwd=2)
+movingAverage(y, 20)
+a <- c(1, 2, 3, 4, 5)
+b <- c(1, 2, NA, 4, 5)
+a + !is.na(b)
+!is.na(b)
+a + b
+movingAverage(y, 20)
+y
+q()
+category <- read.table("clipboard",
+sep = '\t',
+header = T,
+stringsAsFactors = F,
+comment.char = "",
+allowEscape = T,
+# fill = T allows rows to have unequal length
+quote = "\n")
+windows()
+ggplot(data = category, aes(x = unit, y = mv)) +
+geom_point(aes(size = mv, shape = factor(top30))) +
+scale_y_continuous(labels = scales::percent) +
+scale_x_continuous(labels = scales::percent) +
+labs(x = "Percent Unit Sold", y = "Percent MV", fill = "") +
+geom_text_repel(aes(label = ifelse(top30 == 1, category, ""),
+size = mv),
+color = 'chocolate',
+force = 2) +
+theme(legend.position = "none",
+plot.title = element_text(hjust = 0.5)) +
+ggtitle("PEERS : Category Sales") +
+theme_minimal() +
+scale_shape_discrete(guide = FALSE) +
+scale_size_continuous(guide = FALSE)
+library(tidyverse)
+library(gridExtra)
+library(reshape2)
+library(dplyr)
+library(ggplot2)
+library(gridExtra)
+library(ggrepel)
+ggplot(data = category, aes(x = unit, y = mv)) +
+geom_point(aes(size = mv, shape = factor(top30))) +
+scale_y_continuous(labels = scales::percent) +
+scale_x_continuous(labels = scales::percent) +
+labs(x = "Percent Unit Sold", y = "Percent MV", fill = "") +
+geom_text_repel(aes(label = ifelse(top30 == 1, category, ""),
+size = mv),
+color = 'chocolate',
+force = 2) +
+theme(legend.position = "none",
+plot.title = element_text(hjust = 0.5)) +
+ggtitle("PEERS : Category Sales") +
+theme_minimal() +
+scale_shape_discrete(guide = FALSE) +
+scale_size_continuous(guide = FALSE)
+category.chart <-
+ggplot(data = category, aes(x = unit, y = mv)) +
+geom_point(aes(size = mv, shape = factor(top30))) +
+scale_y_continuous(labels = scales::percent) +
+scale_x_continuous(labels = scales::percent) +
+labs(x = "Percent Unit Sold", y = "Percent MV", fill = "") +
+geom_text_repel(aes(label = ifelse(top30 == 1, category, ""),
+size = mv),
+color = 'chocolate',
+force = 2) +
+theme(legend.position = "none",
+plot.title = element_text(hjust = 0.5)) +
+ggtitle("PEERS : Category Sales") +
+theme_minimal() +
+scale_shape_discrete(guide = FALSE) +
+scale_size_continuous(guide = FALSE)
+ggsave(filename = "Peers Category Sales.png", category.chart)
+ls()
+rm(list=ls())
+ls()
+getwd()
+data(mtcars)
+search()
+head(mtcars, 10)
+windows()
+ggplot(data = mtcars, aes(x = mgp, y = hp)) +
+geom_point(ase(col = cyl))
+ggplot(data = mtcars, aes(x = mgp, y = hp)) +
+geom_point(aes(col = cyl))
+ggplot(data = mtcars, aes(x = mpg, y = hp)) +
+geom_point(aes(col = cyl))
+ggplot(data = mtcars, aes(x = mpg, y = hp)) +
+geom_point(aes(fill = cyl), size = 5)
+ggplot(data = mtcars, aes(x = mpg, y = hp)) +
+geom_point(aes(fill = factor(cyl)), size = 5)
+ggplot(data = mtcars, aes(x = mpg, y = hp)) +
+geom_point(aes(colors = factor(cyl)), size = 5)
+ggplot(data = mtcars, aes(x = mpg, y = hp)) +
+geom_point(aes(col = factor(cyl)), size = 5)
+g + ggplot2::annotate("text",
+label = "Randomly Plot Something Here",
+x = 30, y = 300,  # coordinates on the chart
+color = "chocolate")
+g <- ggplot(data = mtcars, aes(x = mpg, y = hp)) +
+geom_point(aes(col = factor(cyl)), size = 5)
+g + ggplot2::annotate("text",
+label = "Randomly Plot Something Here",
+x = 30, y = 300,  # coordinates on the chart
+color = "chocolate")
+g + ggplot2::annotate("text",
+label = "Randomly Plot Something Here!",
+x = 30, y = 300,  # coordinates on the chart
+size = 10,
+color = "chocolate")
+f <- factor(c("b", "b", "a", "c", "c", "c", NA))
+f
+fct_inorder(f)
+library(forcats)
+fct_inorder(f)
+f
+f <- factor(c("b", "b", "a", "c", "c", "c", NA))
+f
+fct_inorder(f)
+fct_infreq(f)
+f2 <- factor(c("b", "b", "a", "c", "c", "c"))
+fct_inorder(f2)
+fct_infreq(f)
+fct_inorder(f, ordered = TRUE)
+fct_inorder(f2, ordered = TRUE)
+fct_infreq(f, ordered = TRUE)
+fct_infreq(f2, ordered = TRUE)
+fct_infreq(f, ordered = TRUE)
+f <- factor(c("b", "b", "a", "c", "c", "c"))
+f
+f
+fct_inorder(f)
+fct_infreq(f)
+fct_inorder(f, ordered = TRUE)
+fct_infreq(f, ordered = TRUE)
+f
+fct_lump
+?fct_lump
+x <- factor(rep(LETTERS[1:9], times = c(40, 10, 5, 27, 1, 1, 1, 1, 1)))
+x %>% table()
+library(gridExtra)
+?tableGrob
+ls()
+search()
+getwd()
+setwd("~/# analytics in R/# analysis/Seasonal Decomposition of Time Series by Loess")
+getwd()
+df <- read.table("clipboard",
+sep = '\t',
+header = T,
+stringsAsFactors = F,
+comment.char = "",
+allowEscape = T,
+# fill = T allows rows to have unequal length
+quote = "\n")
+?stl
+?suppressMessages
+options(warn = -1)
+library(ggplot2)
+library(lubridate)
+?options
+options(warn = 0)
+head(df); dim(df)
+df$date <- ymd(df$date_key)
+df$month <- month(df$date)
+df$year <- year(df$date)
+df$year_month <- substr(df$date_key, 1, 6)
+head(df); dim(df)
+windows()
+?ts
+ts(1:10, frequency = 4, start = c(1959, 2)) # 2nd Quarter of 1959
+ts(1:10, frequency = 2, start = c(1959, 2)) # 2nd Quarter of 1959
+ts(1:10, frequency = 1, start = c(1959, 2)) # 2nd Quarter of 1959
+ts(1:365, frequency = 1, start = c(1959, 1)) # 2nd Quarter of 1959
+ts(1:365, frequency = 12, start = c(1959, 1)) # 2nd Quarter of 1959
+ts(1:365, frequency = 365, start = c(1959, 1)) # 2nd Quarter of 1959
+ts(1:365, frequency = 365, start = 20160101) # 2nd Quarter of 1959
+print(ts(1:365, frequency = 365, start = 20160101))
+plot(ts(1:365, frequency = 365, start = 20160101))
+plot(ts(1:365, frequency = 365, start = c(2016, 1), end = c(2016, 365))
+)
+head(df)
+plot(ts(1:365, frequency = 365, start = "2015-01-01", end = "2015-12-31"))
+df2 <- df
+subset(df2$customer, df2$year == 2015)
+time.series <- ts(subset(df2$customer, df2$year == 2015),
+frequency = 365,
+start = c(2015, 1),
+end = c(2015, 365))
+plot(time.series)
+time.series <- ts(subset(df2$customer, df2$year %in% c(2015, 2016),
+frequency = 365,
+start = c(2015, 1),
+end = c(2016, 365))
+time.series <- ts(subset(df2$customer, df2$year %in% c(2015, 2016)),
+frequency = 365,
+start = c(2015, 1),
+end = c(2016, 365))
+plot(time.series)
+time.series <- ts(subset(df2$customer, df2$year %in% c(2015, 2016)),
+frequency = 365,  # indicate day, e.g. 12 for month, 4 for quarter, etc.
+start = c(2015, 1),
+end = c(2016, 365))
+plot(time.series)
+decomposed <- stl(time.series,
+s.window = "periodic")
+?stl
+decomposed <- stl(time.series,
+s.window = 365)
+stl(time.series,
+s.window = 7)
+time.series
+stl(time.series)
+stl(time.series, s.window = 10)
+time.series <- ts(subset(df2$customer, df2$year %in% c(2015, 2016)),
+frequency = 7,
+# frequency is the number of observations per unit time
+# (1=annual, 4=quartly, 12=monthly, 7=daily, etc.)
+start = c(2015, 1))
+time.series
+plot(time.series)
+time.series <- ts(subset(df2$customer, df2$year %in% c(2015, 2016)),
+frequency = 7,
+# frequency is the number of observations per unit time
+# (1=annual, 4=quartly, 12=monthly, 7=daily, etc.)
+start = c(2015, 1),
+end = c(2016, 365))
+plot(time.series)
+time.series <- ts(subset(df2$customer, df2$year %in% c(2015, 2016)),
+frequency = 7,
+# frequency is the number of observations per unit time
+# (1=annual, 4=quartly, 12=monthly, 7=daily, etc.)
+start = c(2015, 1),
+end = c(2016, 7))
+plot(time.series)
+time.series <- ts(subset(df2$customer, df2$year %in% c(2015, 2016)),
+frequency = 7,
+# frequency is the number of observations per unit time
+# (1=annual, 4=quartly, 12=monthly, 7=daily, etc.)
+start = c(2015, 1),
+end = c(2016, 730))
+plot(time.series)
+time.series <- ts(subset(df2$customer, df2$year %in% c(2015, 2016)),
+frequency = 7,
+# frequency is the number of observations per unit time
+# (1=annual, 4=quartly, 12=monthly, 7=daily, etc.)
+start = c(2015, 7))
+plot(time.series)
+print( ts(1:10, frequency = 7, start = c(12, 2)), calendar = TRUE)
+print( ts(1:10, frequency = 7, start = c(2015, 1)), calendar = TRUE)
+print( ts(1:10, frequency = 365, start = c(2015, 1)), calendar = TRUE)
+print( ts(1:100, frequency = 365, start = c(2015, 1)), calendar = TRUE)
+print( ts(1:100, frequency = 7, start = c(2015, 1)), calendar = TRUE)
+print( ts(1:100, frequency = 7, start = c(2015, 1), end = c(2015, 12)), calendar = TRUE)
+print( ts(1:100, frequency = 7, start = c(201501, 1), end = c(201512, 12)), calendar = TRUE)
+print( ts(1:36, frequency = 12, start = c(2000, 1), end = c(2002, 12)), calendar = TRUE)
+ts(cumsum(1 + round(rnorm(100), 2)),
+start = c(1954, 7), frequency = 12)
+ts(1:100, frequency = 7, start = c(20150101, 1),
+end = c(20151231, 12))
+ts(cumsum(1 + round(rnorm(100), 2)),
+start = c(1954, 7), frequency = 12)
+ts(cumsum(1 + round(rnorm(100), 2)),
+start = c(1954, 7.1), frequency = 12)
+gnp <- ts(cumsum(1 + round(rnorm(100), 2)),
+start = c(1954, 7), frequency = 12)
+stl(gnp, s.window = "periodic")
+ts(1:100, frequency = 7, start = c(2015, 1))
+ts(1:100, frequency = 12, start = c(2015, 1))
+ts(1:100, frequency = 365, start = c(2015, 1))
+ts(1:100, frequency = 4, start = c(2015, 1))
+ts(1:100, frequency = 7, start = c(2015, 1))
+ts(1:100, frequency = 12, start = c(2015, 1))
+inds <- seq(as.Date("2014-06-01"), as.Date("2015-10-14"), by = "day")
+inds
+as.numeric(format(inds[1], "%j"))
+inds[1]
+?format
+inds <- seq(as.Date("2015-01-01"), as.Date("2016-12-31"), by = "day")
+length(inds)
+length(subset(df2$customer, df2$year %in% c(2015, 2016)))
+inds <- seq(as.Date("2015-01-01"), as.Date("2016-12-31"), by = "day")
+inds
+time.series <- ts(subset(df2$customer, df2$year %in% c(2015, 2016)),
+frequency = 365,
+# frequency is the number of observations per unit time
+# (1=annual, 4=quartly, 12=monthly, etc.)
+start = c(2015,
+as.numeric(format(inds[1], "%j")))
+)  # create time series ts()
+plot(time.series)
+time.series
+inds <- seq(as.Date("2015-01-01"), as.Date("2016-12-31"), by = "day")
+time.series <- ts(subset(df2$customer, df2$year %in% c(2015, 2016)),
+frequency = 365,
+# frequency is the number of observations per unit time
+# (1=annual, 4=quartly, 12=monthly, etc.)
+start = c(2015,
+as.numeric(format(inds[1], "%j")))
+)  # create time series ts()
+plot(time.series)
+decomposed <- stl(time.series,
+s.window = "periodic")
+decomposed
+seasonal <- decomposed$time.series[, 1]
+trend <- decomposed$time.series[, 2]
+remainder <- decomposed$time.series[, 3]
+head(decomposed)
+plot(trend)
+plot(trend + seasonal)
+plot(seasonal)
+lines(trend)
+lines(trend, col = "red", type = 2)
+lines(trend, col = "red", lty = 2)
+plot(trend + remainder,
+main = "Widget Sales over Time, Seasonally Adjusted",
+ylab = "sales")
+as.numeric(format(inds[1], "%j"))
+class(as.numeric(format(inds[1], "%j")))
+a <- c(1, 2, 3, 4, 5, 6)
+diff(a)
+a <- c(1, 2, 3, 4, 5, 7)
+a <- c(1, 2, 3, 4, 5, 12)
+diff(a)
+diff(a, differences = 2)
+diff(a, differences = 3)
+diff(a, differences = 4)
+diff(a, differences = 3)
+diff(diff(diff(a)))
+diff(a, lag = 2)
+diff(a, lag = 4)
+ls()
+rm(a)
+windows()
+inds <- seq(as.Date("2015-01-01"), as.Date("2016-12-31"), by = "day")
+time.series <- ts(subset(df2$customer, df2$year %in% c(2015, 2016)),
+frequency = 365,
+# frequency is the number of observations per unit time
+# (1=annual, 4=quartly, 12=monthly, etc.)
+start = c(2015,
+as.numeric(format(inds[1], "%j")))
+)  # create time series ts()
+plot(time.series)
+plot(decomposed)
+write.table(decomposed, "clipboard", sep = "\t", row.names = F)
+write.table(seasonal, "clipboard", sep = "\t", row.names = F)
+write.table(trend, "clipboard", sep = "\t", row.names = F)
+write.table(remainder, "clipboard", sep = "\t", row.names = F)
+decomposed
+summary(decomposed)
+IQR(decomposed)
+?ma
+library(forecast)
+install.packages('forecast')
+?stl
